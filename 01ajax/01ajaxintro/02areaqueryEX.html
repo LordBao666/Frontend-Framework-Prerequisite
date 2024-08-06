@@ -49,6 +49,41 @@
         cname: 城市名字
     */
 
+    /**
+     *  Below is my code.
+     */
+    document.querySelector(".sel-btn").addEventListener("click",()=>{
+      // let pname = document.querySelector("input[name='province']").value;
+      // let cname = document.querySelector("input[name='city']").value;
+      let pname = document.querySelector(".province").value;
+      let cname = document.querySelector(".city").value;
+
+      axios({
+        url: "http://hmajax.itheima.net/api/area",
+        params: {
+          pname,
+          cname
+        }
+      }
+      ).then((result) => {
+          //get the areaList ,clear all subelements first and add new elelements from
+          //the url 
+          const areaList = document.querySelector(".list-group");
+          areaList.innerHTML="";
+          //or
+          // areaList.replaceChildren();
+          const areaArr =result.data.list;
+          areaArr.forEach(
+            (area)=>{
+              const newLi =document.createElement("li");
+              newLi.innerText=area;
+              newLi.classList.add("list-group-item");
+              areaList.appendChild(newLi);
+            }
+          );
+      });
+    }
+  )
   </script>
 </body>
 
