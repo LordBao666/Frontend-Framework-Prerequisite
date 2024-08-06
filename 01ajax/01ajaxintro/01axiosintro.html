@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 Ajax Intro</title>
+</head>
+
+<body>
+  <p class="myp"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    //get all provinces of China
+    axios(
+      {
+        url: "http://hmajax.itheima.net/api/province"
+      }
+    ).then((result) => {
+      //for more about the result,check the browser console
+      console.log(result);
+      console.log(result.data.list.join("<br>"));
+
+      // const myp = document.querySelector(".myp");
+      // myp.innerHTML = result.data.list.join("<br>");
+    })
+
+
+    //get all cityes of one paticular province
+    //By adding paramas, the url finally is like http://hmajax.itheima.net/api/city?pname=海南省
+    axios(
+      {
+        url: "http://hmajax.itheima.net/api/city",
+        params:{
+          pname:"海南省"
+        }
+      }
+    ).then((result) => {
+      console.log(result);
+      console.log(result.data.list.join("<br>"));
+    })
+
+  </script> 
+</body>
+</html>
