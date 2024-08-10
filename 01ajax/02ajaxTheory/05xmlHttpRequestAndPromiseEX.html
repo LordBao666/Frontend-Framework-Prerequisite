@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="mypara"></div>
+  <script>
+    const promise = new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
+      request.open("get", "http://hmajax.itheima.net/api/province");
+      request.addEventListener("loadend", () => {        
+        //success
+        if (200 <= request.status && request.status < 300) {
+          resolve(JSON.parse(request.response));
+        } else {//failure
+          reject(new Error(request.response));
+        }
+
+      })
+      request.send();
+    });
+
+
+    promise.then((result => {
+      const mypara= document.querySelector(".mypara");
+      mypara.innerHTML= result.list.join("<br>");
+      
+    })).catch(error => {
+      const mypara = document.querySelector(".mypara");
+      mypara.innerHTML = error.message;
+    });
+  </script>
+</body>
+
+</html>
