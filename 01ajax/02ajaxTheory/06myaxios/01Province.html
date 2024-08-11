@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <p class="mypara"></p>
+  <script type="module">
+    import {PromiseConfig} from "./PromiseConfig.js";
+    import { myAxios } from "./MyAxios.js";
+    const promiseConfig = new PromiseConfig("http://hmajax.itheima.net/api/province","get");
+    console.log(promiseConfig);
+
+    myAxios(promiseConfig).
+    then((result => {
+      const mypara = document.querySelector(".mypara");
+      mypara.innerHTML = result.list.join("<br>");
+
+    })).catch(error => {
+      const mypara = document.querySelector(".mypara");
+      mypara.innerHTML = error.message;
+    })
+
+  </script>
+</body>
+
+</html>
