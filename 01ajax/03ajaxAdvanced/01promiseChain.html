@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise链式调用_解决回调地狱</title>
+</head>
+
+<body>
+  <form>
+    <span>省份：</span>
+    <select>
+      <option class="province"></option>
+    </select>
+    <span>城市：</span>
+    <select>
+      <option class="city"></option>
+    </select>
+    <span>地区：</span>
+    <select>
+      <option class="area"></option>
+    </select>
+  </form>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    /**
+     * 目标：把回调函数嵌套代码，改成Promise链式调用结构
+     * 需求：获取默认第一个省，第一个市，第一个地区并展示在下拉菜单中
+    */
+
+// Below is my code. 
+// Note that axios() itself will return a Promise object.
+
+    let firstProvince;
+    let firstCity;
+    let firstArea;
+    axios({
+      url: "http://hmajax.itheima.net/api/province"
+    }).then((result) => {
+      const provinceOption = document.querySelector(".province");
+      firstProvince = result.data.list[0]
+      provinceOption.textContent = firstProvince;
+      return axios({
+        url: "http://hmajax.itheima.net/api/city",
+        params: {
+          pname: firstProvince
+        }
+      })
+    }).then((result) => {
+      const cityOption = document.querySelector(".city");
+      firstCity = result.data.list[0]
+      cityOption.textContent = firstCity;
+      return axios({
+        url: "http://hmajax.itheima.net/api/area",
+        params: {
+          pname: firstProvince,
+          cname: firstCity
+        }
+      })
+    }).then(result => {
+      const areaeOption = document.querySelector(".area");
+      firstArea = result.data.list[0]
+      areaeOption.textContent = firstArea;
+    }).catch(error => {
+      console.log(error);
+    })
+
+  </script>
+</body>
+
+</html>
