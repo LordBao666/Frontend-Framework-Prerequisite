@@ -70,7 +70,6 @@ function addArea(areaValue, areaTextContent) {
   selectArea.appendChild(option);
 }
 
-
 /**
  *
  * @param {Array} areaArr
@@ -142,5 +141,21 @@ selectCity.addEventListener("change", async (event) => {
     modifyAreas(result.data.list);
   } catch (error) {
     console.log(error);
+  }
+});
+
+const button = document.querySelector(".submit");
+button.addEventListener("click", async () => {
+  try {
+    const form = document.querySelector(".info-form");
+    const data = serialize(form, { hash: true, empty: true });
+    const result = await axios({
+      url: "http://hmajax.itheima.net/api/feedback",
+      method: "post",
+      data
+    });
+    console.log(result);
+  } catch (error) {
+    console.dir(error);
   }
 });
