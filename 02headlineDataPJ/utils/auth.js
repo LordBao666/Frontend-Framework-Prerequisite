@@ -5,6 +5,10 @@
  * 1.2 登录成功后，保存 token 令牌字符串到本地，并跳转到内容列表页面
  */
 
+const token = localStorage.getItem("token");
+if(!token){
+  location.href="../login/index.html";
+}
 /**
  * 目标2：设置个人信息
  * 2.1 在 utils/request.js 设置请求拦截器，统一携带 token

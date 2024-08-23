@@ -36,6 +36,12 @@ loginButton.addEventListener("click", async (event) => {
     });
     loginFeedback(true,result.data.message);
 
+    //add token and forward to content/index.html after 2 secs
+    localStorage.setItem("token",result.data.data.token);
+    setTimeout(()=>{
+      location.href="../content/index.html";
+    },2000);
+    
   } catch (error) {
     loginFeedback(false,error.response.data.message);
   }
