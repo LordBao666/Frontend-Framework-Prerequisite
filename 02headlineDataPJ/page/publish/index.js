@@ -3,6 +3,7 @@
  *  1.1 获取频道列表数据
  *  1.2 展示到下拉菜单中
  */
+//check channel.js
 
 /**
  * 目标2：文章封面设置
@@ -11,6 +12,29 @@
  *  2.3 单独上传图片并得到图片 URL 网址
  *  2.4 回显并切换 img 标签展示（隐藏 + 号上传标签）
  */
+document.querySelector(".cover .img-file").addEventListener("change",async (event)=>{
+  //the user did not choose a file.
+  if(event.target.files.length===0){
+    return;
+  }
+
+  const file = event.target.files[0];
+  const fd = new FormData();
+  fd.append("image",file);
+
+  const res =await axios({
+    url: "/v1_0/upload",
+    method:"post",
+    data:fd
+  });
+  // console.log(res);
+  const img = document.querySelector(".cover .rounded");
+  img.src = res.data.data.url;
+  img.classList.add("show");
+
+  document.querySelector(".cover .place").classList.add("hide");
+});
+
 
 /**
  * 目标3：发布文章保存
@@ -19,7 +43,38 @@
  *  3.3 调用 Alert 警告框反馈结果给用户
  *  3.4 重置表单并跳转到列表页
  */
+document.querySelector(".content .btn").addEventListener("click",async ()=>{
+  const form=document.querySelector(".art-form");
+  const data=serialize(form,{hash:true,empty:true});
+  //when posting a new article, id need to be removed, because id
+  //is created by the server not by the user
+  delete data.id;
+  //add cover to data
 
+  data.cover = {
+    type:1,
+    images:[document.querySelector(".cover img").src]
+  }
+
+  console.log(data);
+  try{
+    const res = await axios({
+      url: "/v1_0/mp/articles",
+      method:"post",
+      data
+    });
+    myAlert(true,"文章发布成功");
+    
+    //forward to content
+    setTimeout(() => {
+      location.href = "../content/index.html";
+    }, 2000);
+
+  }catch(error){
+    console.dir(error);
+    myAlert(false, error.response.data.message);
+  }
+})
 /**
  * 目标4：编辑-回显文章
  *  4.1 页面跳转传参（URL 查询参数方式）
