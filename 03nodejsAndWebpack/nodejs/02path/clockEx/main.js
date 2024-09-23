@@ -17,6 +17,7 @@ const regscript = /<script>[\s\S]*<\/script>/;
  * @param {string} path CSS最终的存储路径
  */
 async function resolveCSS(html, path) {
+  //如果正则表达式匹配成功，exec返回的数组arr中的arr[0]即为匹配文本
   const arr = regstyle.exec(html);
   const data = arr[0].replace("<style>", "").replace("</style>", "");
   await writeFile(path, data);
@@ -28,6 +29,7 @@ async function resolveCSS(html, path) {
  * @param {string} path JavaScript最终的存储路径
  */
 async function resolveJavaScript(html, path) {
+  //如果正则表达式匹配成功，exec返回的数组arr中的arr[0]即为匹配文本
   const arr = regscript.exec(html);
   const data = arr[0].replace("<script>", "").replace("</script>", "");
   await writeFile(path, data);
