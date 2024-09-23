@@ -9,6 +9,7 @@ const dirPath = dirname(filePath);
 
 const content = "HelloWorld"; 
 
+//if writing succeeds,error will be null.
 writeFile(dirPath+"/file1/1.txt",content,error =>{
   if(error){
     console.log("write fails");

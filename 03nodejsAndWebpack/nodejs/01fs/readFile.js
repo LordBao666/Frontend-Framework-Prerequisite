@@ -8,6 +8,8 @@ const filePath = fileURLToPath(import.meta.url);
 const dirPath = dirname(filePath);
 
 
+//if reading succeeds,error will be null.
+//if reading fails, data will be undefined.
 readFile(dirPath+"/file1/1.txt","utf-8",(error,data)=>{
   if(error){
     console.log("file reading fail");

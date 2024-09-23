@@ -4,32 +4,29 @@ import { dirname } from "node:path";
 
 const filePath = fileURLToPath(import.meta.url);
 const dirPath = dirname(filePath);
+const readFromFile = dirPath + "/score.txt";
+const writeToFile = dirPath + "/score-ok.txt";
 
-async function readAndWritescore() {
-  let readContent;
+async function readAndWriteContent() {
   try {
-    const res = await readFile(`${dirPath}/score.txt`, "utf-8");
-    readContent = res
+    //read
+    const readContent = await readFile(readFromFile, "utf-8");
+    console.log("read succeed");
+
+    //handle readContent
+    const result = readContent
       .split(" ")
       .map((ele) => {
         return ele.replace("=", ": ");
       })
       .join("\n");
-    console.log("read succeeds");
 
+    //write
+    await writeFile(writeToFile, result);
+    console.log("write succeed");
   } catch (error) {
-    console.log("read fails.....");
-    console.log(error);
-    return;
-  }
-
-  try {
-    await writeFile(`${dirPath}/score-ok.txt`, readContent);
-    console.log("write succeeds");
-  } catch (error) {
-    console.log("write fails---");
-    console.log(error);
+    console.error("error:", error);
   }
 }
 
-readAndWritescore();
+readAndWriteContent();
